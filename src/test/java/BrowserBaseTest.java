@@ -15,7 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 
-public class BaseTest {
+public class BrowserBaseTest {
 
     AndroidDriver driver;
     AppiumDriverLocalService service;
@@ -36,11 +36,12 @@ public class BaseTest {
         UiAutomator2Options options = new UiAutomator2Options();
         // set the emaulator to run the apk
         options.setDeviceName("Samsung SM-A336E API 34 ");
-//        options.setChromedriverExecutable("C:\\Users\\ITCae\\Downloads\\chromedriver-win64.zip\\chromedriver-win64");
+        options.setChromedriverExecutable("C:\\Users\\ITCae\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
 
+        options.setCapability("browserName", "Chrome");
 //        options.setDeviceName("TestingDevice");
         // provide apk and open in the device .
-        options.setApp("C:\\Users\\ITCae\\OneDrive\\Desktop\\AppiumFramework\\apps\\General-Store.apk");
+//        options.setApp("C:\\Users\\ITCae\\OneDrive\\Desktop\\AppiumFramework\\apps\\General-Store.apk");
 //        options.setApp("C:\\Users\\ITCae\\OneDrive\\Desktop\\AppiumFramework\\apps\\General-Store.apk");
 
 
@@ -48,34 +49,6 @@ public class BaseTest {
         // The server URL should point to where Appium is running (usually on port 4723)
         driver = new AndroidDriver(new URI("http://127.0.0.1:4723").toURL(), options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-    }
-
-
-    public void longPress(WebElement ele) {
-        // all these are javascrpit functions
-        // mobile: longClickGesture
-        ((JavascriptExecutor) driver).executeScript("mobile: longClickGesture",
-                ImmutableMap.of("elementId", ((RemoteWebElement) ele).getId(), "duration", 2000
-                ));
-    }
-
-    public void scrollToEnd() {
-        boolean canScrollMore;
-        do {
-            canScrollMore = (Boolean) ((JavascriptExecutor) driver).executeScript("mobile: scrollGesture", ImmutableMap.of(
-                    "left", 100, "top", 100, "width", 200, "height", 200,
-                    "direction", "down",
-                    "percent", 1.0
-            ));
-        } while (canScrollMore);
-    }
-
-    public void swipeByJS(WebElement ele, String direction) {
-        ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
-                "elementId", ((RemoteWebElement) ele).getId(),
-                "direction", direction,
-                "percent", 0.75
-        ));
     }
 
 

@@ -1,5 +1,6 @@
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import org.openqa.selenium.By;
@@ -14,13 +15,14 @@ import org.testng.annotations.Test;
 public class AndroidTest extends BaseTest {
 
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void wifiSettings() throws InterruptedException {
 
         // Appium code -> appium server -> Mobile
         // xpath , id , accessibilityId ,className , androidUIAutomator.
 
         //tagname[@attribute='value']
+
 
         driver.findElement(AppiumBy.accessibilityId("Preference")).click();
         driver.findElement(AppiumBy.accessibilityId("3. Preference dependencies")).click();
@@ -109,11 +111,52 @@ public class AndroidTest extends BaseTest {
     }
 
 
-    @Test(enabled = true, description = "scroll gesture using javascrpit")
+    @Test(enabled = false, description = "scroll gesture using javascrpit")
     public void miscellaneousActivity() throws InterruptedException {
         Thread.sleep(3000);
         driver.findElement(AppiumBy.accessibilityId("Preference")).click();
         driver.findElement(AppiumBy.accessibilityId("3. Preference dependencies")).click();
+        driver.findElement(By.id("android:id/checkbox")).click();
+
+        // Rotate device to landscape mode .
+        DeviceRotation landscape = new DeviceRotation(0, 0, 90);
+        driver.rotate(landscape);
+        Thread.sleep(3000);
+        driver.rotate(landscape);
+
+        driver.findElement(By.xpath("(//android.widget.RelativeLayout)[2]")).click();
+        String actualTittle = driver.findElement(By.id("android:id/alertTitle")).getText();
+        Assert.assertEquals(actualTittle, "WiFi settings");
+        System.out.println("PassAssertion");
+        // copy to clipboard ...
+        driver.setClipboardText("Testing Wifi1");
+
+        driver.findElement(By.id("android:id/edit")).sendKeys(driver.getClipboardText());
+        driver.findElement(By.id("android:id/button1")).click();
+        Thread.sleep(3000);
+        // This is the some key events ...
+        driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        driver.pressKey(new KeyEvent(AndroidKey.HOME));
+        Thread.sleep(3000);
+
+
+    }
+
+    @Test(enabled = false, description = "scroll gesture using javascrpit")
+    public void miscellaneousActivity2() throws InterruptedException {
+        Thread.sleep(3000);
+
+        // App package and activity name ..
+
+        // io.appium.android.apis/io.appium.android.apis.preference.PreferenceDependencies
+        Activity activity = new Activity("io.appium.android.apis", "io.appium.android.apis.preference.PreferenceDependencies");
+//        driver.startActivity(activity);
+
+        // another way to execute
+        ((JavascriptExecutor) driver).executeScript("mobile: startActivity",
+                ImmutableMap.of("intent", "io.appium.android.apis/io.appium.android.apis.preference.PreferenceDependencies"
+                ));
+
         driver.findElement(By.id("android:id/checkbox")).click();
 
         // Rotate device to landscape mode .
