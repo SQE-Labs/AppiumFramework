@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 public class AndroidTest extends BaseTest {
 
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void wifiSettings() throws InterruptedException {
 
         // Appium code -> appium server -> Mobile
@@ -30,14 +30,13 @@ public class AndroidTest extends BaseTest {
         driver.findElement(By.xpath("(//android.widget.RelativeLayout)[2]")).click();
         String actualTittle = driver.findElement(By.id("android:id/alertTitle")).getText();
         Assert.assertEquals(actualTittle, "WiFi settings");
-        System.out.println("PassAssertion");
         driver.findElement(By.id("android:id/edit")).sendKeys("Testing Wifi");
         driver.findElement(By.id("android:id/button1")).click();
 
 
     }
 
-    @Test(enabled = false, description = "for long press gesture")
+    @Test(enabled = true, description = "for long press gesture")
     public void longPress() throws InterruptedException {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
         driver.findElement(AppiumBy.accessibilityId("Expandable Lists")).click();
@@ -52,11 +51,14 @@ public class AndroidTest extends BaseTest {
     public void scrollGestureByAppium() throws InterruptedException {
         driver.findElement(AppiumBy.accessibilityId("Views")).click();
         Thread.sleep(3000);
+
         // scroll using appium ..
         String scrollableUiAutomator = "new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().text(\"WebView\"));";
         driver.findElement(AppiumBy.androidUIAutomator(scrollableUiAutomator));
+
         // using java script one disadvantage is
         // js use the coordinate to stop the scroll function not a text .
+
     }
 
     @Test(enabled = false, description = "scroll gesture using javascrpit")
@@ -141,6 +143,7 @@ public class AndroidTest extends BaseTest {
 
 
     }
+
 
     @Test(enabled = false, description = "scroll gesture using javascrpit")
     public void miscellaneousActivity2() throws InterruptedException {
